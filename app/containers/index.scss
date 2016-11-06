@@ -1,0 +1,120 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+  margin: 0;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+//TODO
+//Move to component scss
+
+.codeEditor {
+  width: 90%;
+  height: 400px;
+  margin: 10px auto;
+  font-size: 14px;
+  font-family: monospace;
+
+  &__container {
+    height: 100%;
+    line-height: 1.3;
+    color: white;
+    background-color: #313335;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    &__lineNumbers {
+      flex-flow: column nowrap;
+      flex-grow: 0;
+      flex-basis: 55px;
+      text-align: right;
+      padding-right: 5px;
+      color: #606366;
+      overflow: hidden;
+    }
+
+    &__editableArea {
+      flex-flow: column nowrap;
+      flex-grow: 12;
+      overflow-y: scroll;
+      background-color: #2B2B2B;
+      outline: none;
+      padding-left: 5px;
+      color: #BABABA;
+      display: block;
+      white-space: pre;
+
+      &::-webkit-scrollbar {
+        width: 1em;
+
+        &-track {
+          -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+
+        &-thumb {
+          background-color: #494949;
+          outline: 1px solid slategrey;
+        }
+      }
+    }
+  }
+
+  &__statusBar__container {
+    background-color: #3C3F41;
+    color: #B8BBBB;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: stretch;
+
+    &__position {
+      flex-flow: column nowrap;
+    }
+  }
+
+}
