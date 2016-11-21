@@ -3,12 +3,12 @@ import AppContainer from '../AppContainer';
 
 export default class Layout extends Component {
 
-    render() {
+  render() {
 
-        return (
-            <div>
-                <AppContainer />
-            </div>
-        );
-    }
+    return (
+      <div>
+        <AppContainer />
+      </div>
+    );
+  }
 }

@@ -3,12 +3,12 @@ import { CodeEditor } from '../../components';
 
 export default class AppContainer extends Component {
 
-    render() {
+  render() {
 
-        return (
-            <div>
-                <CodeEditor />
-            </div>
-        );
-    }
+    return (
+      <div>
+        <CodeEditor />
+      </div>
+    );
+  }
 }

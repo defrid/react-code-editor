@@ -1,10 +1,10 @@
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
+const webpack = require('webpack');
+const WebpackDevServer = require('webpack-dev-server');
 
-var config = require('./webpack.config');
+const config = require('./webpack.config');
 
-var port = 3000;
-var ip = 'localhost';
+const port = 3000;
+const ip = 'localhost';
 
 new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
