@@ -17,19 +17,18 @@ export default class CodeEditor extends Component {
     }
 
     componentDidMount() {
-        document.getElementById('codeEditorTextArea').addEventListener('scroll', this.onScroll);
+        this.refs.textArea.addEventListener('scroll', this.onScroll);
     }
 
     componentWillUnmount() {
-        document.getElementById('codeEditorTextArea').removeEventListener('scroll', this.onScroll);
+        this.refs.textArea.removeEventListener('scroll', this.onScroll);
     }
 
     onScroll = (event) => {
         var targetElement = event.target || event.srcElement;
         var scrollOffset = targetElement.scrollTop;
 
-        var rowsNumbers = document.getElementById('codeEditorRowArea');
-        rowsNumbers.scrollTop = scrollOffset;
+        this.refs.rowArea.scrollTop = scrollOffset;
     }
 
     generateLineNumbers() {
@@ -46,7 +45,7 @@ export default class CodeEditor extends Component {
 
         if (node.length === undefined) {
 
-            return null;
+            //return null;
         }
 
         const text = node.textContent.slice(0, selection.focusOffset);
@@ -106,12 +105,14 @@ export default class CodeEditor extends Component {
         const key = event.keyCode;
 
         switch (key) {
+            case 8:
+                //backspace
+                this.generateLineNumbers();
+                break;
             case 9:
                 //tab
                 event.preventDefault();
                 this.onTabKey();
-                //DEBUG KEY
-                //this.markWords();
                 break;
             case 13:
                 //enter
@@ -136,12 +137,12 @@ export default class CodeEditor extends Component {
         return (
             <div className="codeEditor">
                 <div className="codeEditor__rows">
-                    <div className="codeEditor__rows__number" id="codeEditorRowArea">
+                    <div className="codeEditor__rows__number" ref="rowArea">
                         { this.generateLineNumbers() }
                     </div>
                     <pre
                         className="codeEditor__rows__text"
-                        id="codeEditorTextArea"
+                        ref="textArea"
                         contentEditable
                         onKeyDown={this.onKeyPressed}
                         onKeyUp={this.onUpdate}
