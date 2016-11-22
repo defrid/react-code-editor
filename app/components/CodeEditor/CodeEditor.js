@@ -122,11 +122,11 @@ export default class CodeEditor extends Component {
   onKeyPressed = (event) => {
     this.keyPressedManager(event);
     this.setStatusCaretPosition();
-  }
+  };
 
   onUpdate = (event) => {
     this.setStatusCaretPosition();
-  }
+  };
 
   render() {
 
@@ -143,8 +143,7 @@ export default class CodeEditor extends Component {
             onKeyDown={this.onKeyPressed}
             onKeyUp={this.onUpdate}
             onClick={this.onUpdate}
-          >
-                    </pre>
+          />
         </div>
 
         <div className="codeEditor__status">
