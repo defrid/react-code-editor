@@ -4,142 +4,158 @@ let KEYWORDS = ['function', 'for', 'if', 'else'];
 
 export default class CodeEditor extends Component {
 
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      line: 1,
-      column: 1,
-      maxlines: 1,
-      lineLength: 0,
-      text: ''
-    };
-  }
-
-  generateLineNumbers() {
-    //document.getElementsByClassName('codeEditor__container__lineNumbers').scrollTop = 50;
-
-    return new Array(this.state.maxlines).join().split(',').map((item, index) => {
-
-      return <p key={index}>{++index}</p>;
-    });
-  }
-
-  getCaretPosition() {
-    const selection = document.getSelection();
-    const node = selection.anchorNode;
-
-    if (node.length === undefined) {
-
-      return null;
+        this.state = {
+            line: 1,
+            column: 1,
+            maxlines: 1,
+            lineLength: 0,
+            text: ''
+        };
     }
 
-    const text = node.textContent.slice(0, selection.focusOffset);
-    const carriesCount = node.textContent.split('\n').length;
-
-    const textLinesArray = text.split('\n');
-    const curLineLength = text.split('\n').pop().length;
-
-    return {
-      text: node.textContent,
-      maxlines: curLineLength == 0 ? carriesCount - 1: carriesCount,
-      line: textLinesArray.length,
-      lineLength: curLineLength,
-      column: textLinesArray.pop().length + 1
-    }
-  }
-
-  setStatusCaretPosition() {
-    const caretPosition = this.getCaretPosition();
-
-    if (caretPosition === null) {
-      return;
+    componentDidMount() {
+        document.getElementById('codeEditorTextArea').addEventListener('scroll', this.onScroll);
     }
 
-    this.setState({...caretPosition});
-  }
-
-  markWords() {
-    //TODO
-    const delimiters = [" ", ".", "-", ",", "+", "!", "\r\n"];
-    let text = this.state.text.split('\r\n,.!@#$%^&*();:"\'?');
-    console.log(text);
-  }
-
-  onTabKey() {
-    //TODO
-    const appendString = '\t';
-    document.execCommand('insertHTML', false, appendString);
-  }
-
-  onKeyEnter() {
-    const caretPosition = this.getCaretPosition();
-
-    let appendString = '\r\n\r\n';
-
-    if (caretPosition !== null) {
-      if (caretPosition.lineLength == 0) {
-        appendString = '\r\n';
-      }
+    componentWillUnmount() {
+        document.getElementById('codeEditorTextArea').removeEventListener('scroll', this.onScroll);
     }
 
-    document.execCommand('insertHTML', false, appendString);
-  }
+    onScroll = (event) => {
+        var targetElement = event.target || event.srcElement;
+        var scrollOffset = targetElement.scrollTop;
 
-  keyPressedManager(event) {
-    const target = event.target;
-    const key = event.keyCode;
+        var rowsNumbers = document.getElementById('codeEditorRowArea');
+        rowsNumbers.scrollTop = scrollOffset;
+    }
 
-    switch (key) {
-      case 9:
+    generateLineNumbers() {
+
+        return new Array(this.state.maxlines).join().split(',').map((item, index) => {
+
+            return <p key={index}>{++index}</p>;
+        });
+    }
+
+    getCaretPosition() {
+        const selection = document.getSelection();
+        const node = selection.anchorNode;
+
+        if (node.length === undefined) {
+
+            return null;
+        }
+
+        const text = node.textContent.slice(0, selection.focusOffset);
+        const carriesCount = node.textContent.split('\n').length;
+
+        const textLinesArray = text.split('\n');
+        const curLineLength = text.split('\n').pop().length;
+
+        return {
+            text: node.textContent,
+            maxlines: curLineLength == 0 ? carriesCount - 1: carriesCount,
+            line: textLinesArray.length,
+            lineLength: curLineLength,
+            column: textLinesArray.pop().length + 1
+        }
+    }
+
+    setStatusCaretPosition() {
+        const caretPosition = this.getCaretPosition();
+
+        if (caretPosition === null) {
+            return;
+        }
+
+        this.setState({...caretPosition});
+    }
+
+    markWords() {
         //TODO
-        //tab
-        event.preventDefault();
-        //this.onTabKey();
-        //DEBUG KEY
-        //this.markWords();
-        break;
-      case 13:
-        //enter
-        event.preventDefault();
-        this.onKeyEnter();
-        this.generateLineNumbers();
-        break;
+        const delimiters = [" ", ".", "-", ",", "+", "!", "\r\n"];
+        let text = this.state.text.split('\r\n,.!@#$%^&*();:"\'?');
+        console.log(text);
     }
-  }
 
-  onKeyPressed = (event) => {
-    this.keyPressedManager(event);
-    this.setStatusCaretPosition();
-  }
+    onTabKey() {
+        //TODO
+        const appendString = '    ';
+        document.execCommand('insertHTML', false, appendString);
+    }
 
-  onUpdate = (event) => {
-    this.setStatusCaretPosition();
-  }
+    onKeyEnter() {
+        const caretPosition = this.getCaretPosition();
 
-  render() {
+        let appendString = '\r\n\r\n';
 
-    return (
-      <div className="codeEditor">
-        <div className="codeEditor__container">
-          <div className="codeEditor__container__lineNumbers">
-            { this.generateLineNumbers() }
-          </div>
-          <pre
-            className="codeEditor__container__editableArea"
-            contentEditable
-            onKeyDown={this.onKeyPressed}
-            onKeyUp={this.onUpdate}
-            onClick={this.onUpdate}
-          />
-        </div>
+        if (caretPosition !== null) {
+            if (caretPosition.lineLength == 0) {
+                appendString = '\r\n';
+            }
+        }
 
-        <div className="codeEditor__statusBar__container">
-          <div className="codeEditor__statusBar__container__position">
-            {this.state.line}:{this.state.column}
-          </div>
-        </div>
-      </div>
-    );
-  }
+        document.execCommand('insertHTML', false, appendString);
+    }
+
+    keyPressedManager(event) {
+        const target = event.target;
+        const key = event.keyCode;
+
+        switch (key) {
+            case 9:
+                //tab
+                event.preventDefault();
+                this.onTabKey();
+                //DEBUG KEY
+                //this.markWords();
+                break;
+            case 13:
+                //enter
+                event.preventDefault();
+                this.onKeyEnter();
+                this.generateLineNumbers();
+                break;
+        }
+    }
+
+    onKeyPressed = (event) => {
+        this.keyPressedManager(event);
+        this.setStatusCaretPosition();
+    }
+
+    onUpdate = (event) => {
+        this.setStatusCaretPosition();
+    }
+
+    render() {
+
+        return (
+            <div className="codeEditor">
+                <div className="codeEditor__rows">
+                    <div className="codeEditor__rows__number" id="codeEditorRowArea">
+                        { this.generateLineNumbers() }
+                    </div>
+                    <pre
+                        className="codeEditor__rows__text"
+                        id="codeEditorTextArea"
+                        contentEditable
+                        onKeyDown={this.onKeyPressed}
+                        onKeyUp={this.onUpdate}
+                        onClick={this.onUpdate}
+                    >
+                    </pre>
+                </div>
+
+                <div className="codeEditor__status">
+                    <div className="codeEditor__status__info">
+                        {this.state.line}:{this.state.column}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
