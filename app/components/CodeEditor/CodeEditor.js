@@ -45,7 +45,7 @@ export default class CodeEditor extends Component {
 
         if (node.length === undefined) {
 
-            //return null;
+            return null;
         }
 
         const text = node.textContent.slice(0, selection.focusOffset);
