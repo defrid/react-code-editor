@@ -1,0 +1,12 @@
+.codeEditor__statusRow {
+  background-color: #3C3F41;
+  color: #B8BBBB;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: stretch;
+}
+
+.statusRow__info {
+  flex-flow: column nowrap;
+}

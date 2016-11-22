@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import { last } from 'lodash/array';
+
+import LineNumbers from './components/LineNumbers';
+import StatusRow from './components/StatusRow';
+
+import { _bindAll } from '~/utils';
+require('./CoreEditor.scss');
 
 let KEYWORDS = ['function', 'for', 'if', 'else'];
 
@@ -10,52 +17,54 @@ export default class CodeEditor extends Component {
     this.state = {
       line: 1,
       column: 1,
-      maxlines: 1,
-      lineLength: 0,
+      totalLines: 1,
+      scrollTop: 0,
       text: ''
     };
+
+    _bindAll(this, 'onKeyPressed', 'onUpdate', 'onScroll');
   }
 
   componentDidMount() {
-    this.refs.textArea.addEventListener('scroll', this.onScroll);
+    this.refs.codeArea.addEventListener('scroll', this.onScroll);
   }
 
   componentWillUnmount() {
-    this.refs.textArea.removeEventListener('scroll', this.onScroll);
+    this.refs.codeArea.removeEventListener('scroll', this.onScroll);
   }
 
-  onScroll = (event) => {
-    var targetElement = event.target || event.srcElement;
-    var scrollOffset = targetElement.scrollTop;
-
-    this.refs.rowArea.scrollTop = scrollOffset;
-  }
-
-  generateLineNumbers() {
-    return Array.from(new Array(this.state.maxlines), (_, index) => <p key={index}>{++index}</p>);
-  }
-
-  getCaretPosition() {
+  getEditorData() {
     const selection = document.getSelection();
     const node = selection.anchorNode;
 
-    if (node.length === undefined) {
+    const text = node.textContent;
+    const allLines = text.split('\n');
+    const linesCount = allLines.length;
 
-      return null;
+    // ToDo refactor this
+    return {
+      text,
+      totalLines:
+        (allLines.length !== 1 && last(allLines).length === 0)
+          ? linesCount - 1
+          : linesCount,
+      selection
     }
+  }
 
-    const text = node.textContent.slice(0, selection.focusOffset);
-    const carriesCount = node.textContent.split('\n').length;
+  getCaretPosition() {
+    const { text, totalLines, selection } = this.getEditorData();
 
-    const textLinesArray = text.split('\n');
-    const curLineLength = text.split('\n').pop().length;
+    const currentLine = text.slice(0, selection.focusOffset);
+    const currentLines = currentLine.split('\n');
+    const curLineLength = last(currentLines).length;
 
     return {
-      text: node.textContent,
-      maxlines: curLineLength == 0 ? carriesCount - 1: carriesCount,
-      line: textLinesArray.length,
-      lineLength: curLineLength,
-      column: textLinesArray.pop().length + 1
+      text,
+      totalLines,
+      line: currentLines.length,
+      column: curLineLength + 1,
+      isLastLine: totalLines === currentLines.length
     }
   }
 
@@ -70,27 +79,30 @@ export default class CodeEditor extends Component {
   }
 
   markWords() {
-    //TODO
-    const delimiters = [" ", ".", "-", ",", "+", "!", "\r\n"];
+    // TODO
+    const delimiters = [' ', '.', '-', ',', '+', '!', '\r\n'];
     let text = this.state.text.split('\r\n,.!@#$%^&*();:"\'?');
     console.log(text);
   }
 
-  onTabKey() {
-    //TODO
+  // TODO
+  handleTabPress() {
     const appendString = '    ';
     document.execCommand('insertHTML', false, appendString);
   }
 
-  onKeyEnter() {
+  // ToDo fix bug with enter inside last line
+  handleEnterPress() {
+    // ToDo remove this or update component only here
     const caretPosition = this.getCaretPosition();
 
-    let appendString = '\r\n\r\n';
+    let appendString;
 
-    if (caretPosition !== null) {
-      if (caretPosition.lineLength == 0) {
-        appendString = '\r\n';
-      }
+    // if at the start of line or last line no need to insert double delimiter
+    if (caretPosition && (caretPosition.column === 1 || !caretPosition.isLastLine)) {
+      appendString = '\r\n';
+    } else {
+      appendString = '\r\n\r\n';
     }
 
     document.execCommand('insertHTML', false, appendString);
@@ -101,56 +113,63 @@ export default class CodeEditor extends Component {
     const key = event.keyCode;
 
     switch (key) {
-      case 8:
-        //backspace
-        this.generateLineNumbers();
-        break;
       case 9:
-        //tab
+        // tab
         event.preventDefault();
-        this.onTabKey();
+        this.handleTabPress();
         break;
       case 13:
-        //enter
+        // enter
         event.preventDefault();
-        this.onKeyEnter();
-        this.generateLineNumbers();
+        this.handleEnterPress();
         break;
     }
   }
 
-  onKeyPressed = (event) => {
+  onScroll(event) {
+    const targetElement = event.target || event.srcElement;
+
+    this.setState({
+      scrollTop: targetElement.scrollTop
+    });
+  };
+
+  onKeyPressed(event) {
     this.keyPressedManager(event);
     this.setStatusCaretPosition();
-  };
+  }
 
-  onUpdate = (event) => {
+  onUpdate(event) {
     this.setStatusCaretPosition();
-  };
+  }
 
   render() {
+    const { scrollTop, totalLines, line, column } = this.state;
+
+    const lineNumbersProps = {
+      totalLines,
+      scrollTop
+    };
+    const statusRowProps = {
+      line,
+      column
+    };
 
     return (
-      <div className="codeEditor">
-        <div className="codeEditor__rows">
-          <div className="codeEditor__rows__number" ref="rowArea">
-            { this.generateLineNumbers() }
-          </div>
+      <div className="editorWrapper">
+        <div className="codeEditor">
+          <LineNumbers {...lineNumbersProps} />
           <pre
-            className="codeEditor__rows__text"
-            ref="textArea"
+            className="codeEditor__codeArea"
+            ref="codeArea"
             contentEditable
             onKeyDown={this.onKeyPressed}
+            // backspace key doesn't trigger keyDown, instead using keyUp to detect it
             onKeyUp={this.onUpdate}
             onClick={this.onUpdate}
           />
         </div>
-
-        <div className="codeEditor__status">
-          <div className="codeEditor__status__info">
-            {this.state.line}:{this.state.column}
-          </div>
-        </div>
+        <StatusRow {...statusRowProps} />
       </div>
     );
   }
