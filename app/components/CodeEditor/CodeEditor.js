@@ -3,6 +3,7 @@ import { last } from 'lodash/array';
 
 import LineNumbers from './components/LineNumbers';
 import StatusRow from './components/StatusRow';
+import CodeArea from './components/CodeAreaNoTextArea';
 
 import { _bindAll } from '~/utils';
 require('./CoreEditor.scss');
@@ -22,15 +23,7 @@ export default class CodeEditor extends Component {
       text: ''
     };
 
-    _bindAll(this, 'onKeyPressed', 'onUpdate', 'onScroll');
-  }
-
-  componentDidMount() {
-    this.refs.codeArea.addEventListener('scroll', this.onScroll);
-  }
-
-  componentWillUnmount() {
-    this.refs.codeArea.removeEventListener('scroll', this.onScroll);
+    _bindAll(this, 'onKeyDown', 'onUpdate', 'onScroll');
   }
 
   getEditorData() {
@@ -134,13 +127,17 @@ export default class CodeEditor extends Component {
     });
   };
 
-  onKeyPressed(event) {
+  onKeyDown(event) {
     this.keyPressedManager(event);
     this.setStatusCaretPosition();
   }
 
   onUpdate(event) {
     this.setStatusCaretPosition();
+  }
+
+  onChange(text) {
+    this.setState({ text });
   }
 
   render() {
@@ -154,20 +151,16 @@ export default class CodeEditor extends Component {
       line,
       column
     };
+    const codeAreaProps = {
+      onChange: this.onScroll,
+      text: this.state.text
+    };
 
     return (
       <div className="editorWrapper">
         <div className="codeEditor">
           <LineNumbers {...lineNumbersProps} />
-          <pre
-            className="codeEditor__codeArea"
-            ref="codeArea"
-            contentEditable
-            onKeyDown={this.onKeyPressed}
-            // backspace key doesn't trigger keyDown, instead using keyUp to detect it
-            onKeyUp={this.onUpdate}
-            onClick={this.onUpdate}
-          />
+          <CodeArea {...codeAreaProps} />
         </div>
         <StatusRow {...statusRowProps} />
       </div>
