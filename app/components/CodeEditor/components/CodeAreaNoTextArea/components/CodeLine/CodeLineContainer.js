@@ -4,7 +4,10 @@ import { editorLineChanged } from '~/actions/editorActions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
-  return {};
+  const editorReducerStore = state.get('editorReducer');
+  return {
+    currentLine: editorReducerStore.get('currentLine')
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CodeArea from './CodeArea';
+import CodeEditor from './CodeEditor';
 import {
 
 } from '~/actions/editorActions';
@@ -9,12 +9,11 @@ const mapStateToProps = (state) => {
   const editorReducerStore = state.get('editorReducer');
 
   return {
-    textLines: editorReducerStore.get('textLines').toArray(),
-    currentLine: editorReducerStore.get('currentLine')
+    totalLines: editorReducerStore.get('textLines').size
   };
 };
 
 const mapDispatchToProps = {
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CodeArea);
+export default connect(mapStateToProps, mapDispatchToProps)(CodeEditor);

@@ -1,28 +1,45 @@
-import { Map, fromJS } from 'immutable';
+import { fromJS } from 'immutable';
 
 import {
-  EDITOR_LINE_CHANGED, EDITOR_INSERT_NEW_LINE
+  EDITOR_CHAR_ENTER, EDITOR_BACKSPACE_PRESS, EDITOR_INSERT_NEW_LINE
 } from '~/actions/editorActions';
+import {
+  _mapActionsToReducer, _replaceAt
+} from '~/utils';
 
-const initialState = Map({
-  textLines: ['']
+const initialState = fromJS({
+  textLines: [''],
+  currentLine: 0
 });
 
-// ToDo rewrite this shit completely
-export default function editorReducer(state = initialState, action) {
-  if (action.type === EDITOR_LINE_CHANGED) {
+// ToDo add support of current caret position
+
+export default _mapActionsToReducer(initialState, {
+  [EDITOR_CHAR_ENTER]: (state, { char }) => {
+    const currentLine = state.get('currentLine');
+    const lines = state.get('textLines');
+    const curLine = lines.get(currentLine);
+    const updatedLines = lines.set(currentLine, curLine.concat(char));
+
+    return state
+      .set('textLines', updatedLines);
+  },
+
+  [EDITOR_INSERT_NEW_LINE]: (state) => {
     const textLines = state.get('textLines');
-    textLines[action.index] = action.text;
+    const currentLine = state.get('currentLine');
 
-    return state.set('textLines', textLines);
+    return state
+      .set('currentLine', currentLine + 1)
+      .set('textLines', textLines.insert(currentLine + 1, ''));
+  },
+  [EDITOR_BACKSPACE_PRESS]: (state) => {
+    const currentLine = state.get('currentLine');
+    const lines = state.get('textLines');
+    const curLine = lines.get(currentLine);
+    const updatedLines = lines.set(currentLine, _replaceAt(curLine, curLine.length - 1));
+
+    return state
+      .set('textLines', updatedLines);
   }
-
-  // ToDo add focus change
-  if (action.type === EDITOR_INSERT_NEW_LINE) {
-    const textLines = state.get('textLines');
-
-    return state.set('textLines', [...textLines, '']);
-  }
-
-  return state;
-}
+});

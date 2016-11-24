@@ -1,52 +1,61 @@
 import React, { PropTypes, Component } from 'react';
 
 import CodeLine from './components/CodeLine';
+import TextInput from './components/TextInput';
+import { _bindAll } from '~/utils';
 
 require('./CodeArea.scss');
 
-export default class CodeArea extends Component {
+class CodeArea extends Component {
 
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    onInsertNewLine: PropTypes.func.isRequired,
-    onLineChanged: PropTypes.func.isRequired,
-    textLines: PropTypes.array.isRequired
-  };
+  constructor(props) {
+    super(props);
 
-  onUpdate(index, event) {
-
+    _bindAll(this, 'onClick')
   }
 
-  onInsertNewLine(index) {
-    this.props.onInsertNewLine(index);
-  }
 
-  onLineChanged(index, text) {
-    this.props.onLineChanged(index, text);
+  onClick() {
+    this.refs.textInput.getWrappedInstance().focus();
   }
 
   renderCodeLines() {
     return this.props.textLines.map((text, index) => {
       const lineProps = {
         key: index,
-        text,
-        onInsertNewLine: this.onInsertNewLine.bind(this, index),
-        onChange: this.onLineChanged.bind(this, index),
-        onKeyUp: this.onUpdate.bind(this, index),
-        onKeyDown: this.onUpdate.bind(this, index),
-        onClick: this.onUpdate.bind(this, index)
+        text
       };
-
       return <CodeLine {...lineProps} />;
     });
   }
 
+  /**
+   * ToDo 1) render custom cursor for editor
+   * ToDo 2) think about rendering custom input inside current line
+   * ToDo choose one: either 1 or 2, 2 is better but need to do it quick
+   */
+
   render() {
+    const inputProps = {
+      ref: 'textInput',
+      onChange: this.onCharEnter,
+      onKeyUp: this.onUpdate,
+      onKeyDown: this.onUpdate
+    };
 
     return (
-      <div className="codeEditor__codeArea">
+      <div className="codeEditor__codeArea"
+        onClick={this.onClick} >
         {this.renderCodeLines()}
+        <TextInput {...inputProps} />
       </div>
     );
   }
 }
+
+CodeArea.propTypes = {
+  textLines: PropTypes.array.isRequired,
+  currentLine: PropTypes.number
+};
+
+export default CodeArea;
