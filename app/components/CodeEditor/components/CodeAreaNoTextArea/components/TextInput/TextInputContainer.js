@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import TextInput from './TextInput';
 import {
   editorCharEnter, editorBackspacePress, editorInsertNewLine, editorArrowPress

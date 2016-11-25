@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import CodeArea from './CodeArea';
 import {
   editorCodeScroll

@@ -117,7 +117,7 @@ export default _mapActionsToReducer(initialState, {
     // if previous line is bigger than current column just go to prev line
     if (prevLine.length >= column) {
       return state
-        .setIn(['position', 'line'], line - 1)
+        .setIn(['position', 'line'], line - 1);
     }
 
     // else put cursor to the end of prev line
@@ -162,7 +162,7 @@ export default _mapActionsToReducer(initialState, {
 
     if (nextLine.length >= column) {
       return state
-        .setIn(['position', 'line'], line + 1)
+        .setIn(['position', 'line'], line + 1);
     }
 
     return state

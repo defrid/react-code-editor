@@ -1,0 +1,58 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true,
+      "destructuring": true,
+      "classes": true,
+      "forOf": true,
+      "blockBindings": true,
+      "arrowFunctions": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "globals": {
+    "require": true,
+    "module": true,
+    "__dirname": true
+  },
+  "rules": {
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "func-style": 0,
+    "func-names": 0,
+    "comma-dangle": 0,
+    "no-console": 0,
+    "no-param-reassign": 0,
+    "linebreak-style": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": 0,
+    "import/extensions": 0,
+    "react/jsx-filename-extension": 0,
+    "react/display-name": 1,
+    "react/jsx-uses-vars": 2,
+    "react/jsx-uses-react": 2
+  }
+}
