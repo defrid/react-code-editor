@@ -2,21 +2,33 @@ import React, { PropTypes, Component } from 'react';
 
 import CodeLine from './components/CodeLine';
 import TextInput from './components/TextInput';
+import Cursor from './components/Cursor';
 import { _bindAll } from '~/utils';
 
 require('./CodeArea.scss');
 
-class CodeArea extends Component {
+export default class CodeArea extends Component {
+
+  static propTypes = {
+    textLines: PropTypes.array.isRequired,
+    onScroll: PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
 
-    _bindAll(this, 'onClick')
+    _bindAll(this, 'onClick', 'onScroll');
   }
 
 
   onClick() {
     this.refs.textInput.getWrappedInstance().focus();
+  }
+
+  onScroll(event) {
+    const targetElement = event.target || event.srcElement;
+
+    this.props.onScroll(targetElement.scrollTop);
   }
 
   renderCodeLines() {
@@ -29,12 +41,6 @@ class CodeArea extends Component {
     });
   }
 
-  /**
-   * ToDo 1) render custom cursor for editor
-   * ToDo 2) think about rendering custom input inside current line
-   * ToDo choose one: either 1 or 2, 2 is better but need to do it quick
-   */
-
   render() {
     const inputProps = {
       ref: 'textInput',
@@ -44,18 +50,15 @@ class CodeArea extends Component {
     };
 
     return (
-      <div className="codeEditor__codeArea"
-        onClick={this.onClick} >
+      <div
+        className="codeEditor__codeArea"
+        onClick={this.onClick}
+        onScroll={this.onScroll}
+      >
         {this.renderCodeLines()}
         <TextInput {...inputProps} />
+        <Cursor />
       </div>
     );
   }
 }
-
-CodeArea.propTypes = {
-  textLines: PropTypes.array.isRequired,
-  currentLine: PropTypes.number
-};
-
-export default CodeArea;

@@ -9,7 +9,9 @@ const mapStateToProps = (state) => {
   const editorReducerStore = state.get('editorReducer');
 
   return {
-    totalLines: editorReducerStore.get('textLines').size
+    totalLines: editorReducerStore.get('textLines').size,
+    position: editorReducerStore.get('position').toObject(),
+    scrollOffset: editorReducerStore.get('scrollOffset')
   };
 };
 

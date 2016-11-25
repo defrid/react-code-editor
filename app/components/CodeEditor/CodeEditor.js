@@ -10,7 +10,8 @@ require('./CoreEditor.scss');
 export default class CodeEditor extends Component {
 
   static propTypes = {
-    totalLines: PropTypes.number
+    totalLines: PropTypes.number,
+    position: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -20,16 +21,16 @@ export default class CodeEditor extends Component {
   }
 
   render() {
-    const { totalLines } = this.props;
+    const { position, totalLines, scrollOffset } = this.props;
 
     const lineNumbersProps = {
-      totalLines
+      totalLines,
+      scrollOffset
     };
 
-    // ToDo get this values from props in container
     const statusRowProps = {
-      line: 1,
-      column: 1
+      line: position.line + 1,
+      column: position.column + 1
     };
 
     return (

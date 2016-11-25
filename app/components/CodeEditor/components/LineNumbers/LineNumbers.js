@@ -6,18 +6,17 @@ export default class LineNumbers extends Component {
 
   static propTypes = {
     totalLines: PropTypes.number.isRequired,
-    //scrollTop: PropTypes.number.isRequired
+    scrollOffset: PropTypes.number.isRequired
   };
 
-  // ToDo return work with scroll
   componentDidMount() {
-    // this.refs.numbers.scrollTop = this.props.scrollTop;
+    this.refs.numbers.scrollTop = this.props.scrollOffset;
   }
 
-  componentWillReceiveProps({scrollTop}) {
-    /* if (this.props.scrollTop !== scrollTop) {
-      this.refs.numbers.scrollTop = scrollTop;
-    } */
+  componentWillReceiveProps({scrollOffset}) {
+    if (this.props.scrollOffset !== scrollOffset) {
+      this.refs.numbers.scrollTop = scrollOffset;
+    }
   }
 
   renderLineNumbers() {

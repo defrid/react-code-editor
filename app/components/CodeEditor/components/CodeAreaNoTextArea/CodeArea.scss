@@ -1,4 +1,5 @@
 .codeEditor__codeArea {
+  position: relative;
   flex-flow: column nowrap;
   flex-grow: 12;
   overflow-y: scroll;
