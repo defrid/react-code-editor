@@ -23,23 +23,21 @@ export default class TextInput extends Component {
   constructor(props) {
     super(props);
 
-    _bindAll(this, 'onChange', 'onKeyDown');
+    _bindAll(this, 'onKeyDown');
   }
 
   focus() {
     this.refs.textInput.focus();
   }
 
-  onChange(event) {
+  onKeyDown(event) {
     event.preventDefault();
     if (_isCharacterKeyEvent(event.key)) {
       this.props.onChar(event.key);
+      return;
     }
-  }
 
-  onKeyDown(event) {
     const key = event.keyCode;
-    event.preventDefault();
 
     switch (key) {
       case BACKSPACE_KEY:
@@ -66,7 +64,6 @@ export default class TextInput extends Component {
       <input
         className="codeArea__textInput"
         ref="textInput"
-        onKeyUp={this.onChange}
         onKeyDown={this.onKeyDown}
         value={this.props.text}
       />
