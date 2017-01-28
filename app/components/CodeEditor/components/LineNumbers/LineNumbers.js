@@ -26,7 +26,7 @@ export default class LineNumbers extends Component {
   render() {
 
     return (
-      <div className={styles.codeEditor__numbersColumn} ref="numbers">
+      <div className={styles.root} ref="numbers">
         { this.renderLineNumbers() }
       </div>
     );

@@ -9,6 +9,7 @@ module.exports = {
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
     'babel-polyfill',
+    './assets/styles/reset.css',
     './app/index'
   ],
   output: {
@@ -51,6 +52,7 @@ module.exports = {
         {
           loader: 'css-loader',
           options: {
+            localIdentName: '[name]-[local]__[hash:base64:5]',
             sourceMap: true,
             modules: true,
             importLoaders: 1

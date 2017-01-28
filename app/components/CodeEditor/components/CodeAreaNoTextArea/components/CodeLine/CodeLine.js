@@ -16,7 +16,7 @@ export default class CodeLine extends Component {
 
     return (
       <pre
-        className={styles.codeArea__codeLine}
+        className={styles.root}
         ref="codeLine">
         {this.props.text}
       </pre>

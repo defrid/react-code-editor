@@ -62,7 +62,7 @@ export default class TextInput extends Component {
 
     return (
       <input
-        className={styles.codeArea__textInput}
+        className={styles.root}
         ref="textInput"
         onKeyDown={this.onKeyDown}
         value={this.props.text}

@@ -1,4 +1,4 @@
-.codeEditor__codeArea {
+.root {
   position: relative;
   flex-flow: column nowrap;
   flex-grow: 12;

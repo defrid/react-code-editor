@@ -1,4 +1,4 @@
-.codeEditor__statusRow {
+.root {
   background-color: #3C3F41;
   color: #B8BBBB;
   display: flex;
@@ -7,6 +7,6 @@
   align-items: stretch;
 }
 
-.statusRow__info {
+.info {
   flex-flow: column nowrap;
 }

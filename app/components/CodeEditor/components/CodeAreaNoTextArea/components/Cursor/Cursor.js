@@ -23,7 +23,7 @@ export default class Cursor extends Component {
     };
 
     return (
-      <div style={style} className={styles.codeArea__cursor} />
+      <div style={style} className={styles.root} />
     );
   }
 }

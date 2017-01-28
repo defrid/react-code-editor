@@ -1,4 +1,4 @@
-.codeEditor__numbersColumn {
+.root {
   flex-flow: column nowrap;
   flex-grow: 0;
   flex-basis: 55px;

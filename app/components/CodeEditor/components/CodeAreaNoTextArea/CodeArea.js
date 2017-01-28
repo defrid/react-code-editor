@@ -51,7 +51,7 @@ export default class CodeArea extends Component {
 
     return (
       <div
-        className={styles.codeEditor__codeArea}
+        className={styles.root}
         onClick={this.onClick}
         onScroll={this.onScroll}
       >

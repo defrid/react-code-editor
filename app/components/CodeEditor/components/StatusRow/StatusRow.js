@@ -12,8 +12,8 @@ export default class StatusRow extends Component {
   render() {
 
     return (
-      <div className={styles.codeEditor__statusRow}>
-        <div className={styles.statusRow__info}>
+      <div className={styles.root}>
+        <div className={styles.info}>
           {this.props.line}:{this.props.column}
         </div>
       </div>

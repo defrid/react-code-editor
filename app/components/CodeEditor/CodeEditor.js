@@ -27,8 +27,8 @@ export default class CodeEditor extends Component {
     };
 
     return (
-      <div className={styles.editorWrapper}>
-        <div className={styles.codeEditor}>
+      <div className={styles.root}>
+        <div className={styles.editor}>
           <LineNumbers {...lineNumbersProps} />
           <CodeArea />
         </div>
