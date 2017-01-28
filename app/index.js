@@ -1,18 +1,12 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import ReactDOM from 'react-dom';
 
-import Layout from './containers/Layout';
+import App from './containers/App';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-          <Layout />
-      </div>
-    );
-  }
-}
-
-require('./containers/index.scss');
+require('./containers/index.css');
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
+if (module.hot) {
+  module.hot.accept();
+}

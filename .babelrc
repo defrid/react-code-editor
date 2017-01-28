@@ -1,10 +1,11 @@
 {
-  "presets": ["es2015", "stage-1", "react"],
+  "presets": [
+    ["es2015", {"modules": false}],
+    "stage-0",
+    "react"
+  ],
   "plugins": [
     "react-hot-loader/babel",
-    ["babel-root-import", [{
-      "rootPathPrefix": "~", // `~` is the default so you can remove this if you want
-      "rootPathSuffix": "app"
-    }]]
+    "transform-decorators-legacy"
   ]
 }

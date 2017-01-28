@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 
-require('./LineNumbers.scss');
+import styles from './LineNumbers.css';
 
 export default class LineNumbers extends Component {
 
@@ -26,7 +26,7 @@ export default class LineNumbers extends Component {
   render() {
 
     return (
-      <div className="codeEditor__numbersColumn" ref="numbers">
+      <div className={styles.codeEditor__numbersColumn} ref="numbers">
         { this.renderLineNumbers() }
       </div>
     );

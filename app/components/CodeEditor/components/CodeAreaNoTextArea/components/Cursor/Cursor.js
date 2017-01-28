@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 
-import charParams from '~/const/charParams';
+import charParams from 'const/charParams';
 
-require('./Cursor.scss');
+import styles from './Cursor.css';
 
 const { width, height, horizontalOffset, verticalOffset } = charParams;
 
@@ -11,11 +11,6 @@ export default class Cursor extends Component {
   static propTypes = {
     position: PropTypes.object.isRequired
   };
-
-  constructor(props) {
-    super(props);
-
-  }
 
   render() {
     const { line, column } = this.props.position;
@@ -28,7 +23,7 @@ export default class Cursor extends Component {
     };
 
     return (
-      <div style={style} className="codeArea__cursor" />
+      <div style={style} className={styles.codeArea__cursor} />
     );
   }
 }

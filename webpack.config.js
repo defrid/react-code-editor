@@ -1,65 +1,75 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  devtool: 'source-map',
   entry: [
+    'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
+    'babel-polyfill',
     './app/index'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/static/'
+    publicPath: '/'
   },
-  devtool: 'source-map',
+  devServer: {
+    hot: true,
+    publicPath: '/',
+    port: 3000
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
+    new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'index.html')
+    })
+  ],resolve: {
+    modules: [
+      path.join(__dirname, 'app'),
+      'node_modules'
+    ],
+    extensions: ['*', '.js', '.jsx', '.css']
+  },
   module: {
-    loaders: [{
+    rules: [{
       enforce: 'pre',
       test: /\.js$/,
-      loader: 'eslint-loader',
+      loaders: ['eslint-loader'],
       exclude: /node_modules/
     }, {
       test: /\.jsx?$/,
-      loaders: ['babel-loader'],
+      use: ['babel-loader'],
       include: path.join(__dirname, 'app')
-    }, {
-      test: /\.js$/,
-      loaders: ['babel-loader'],
-      include: path.join(__dirname, 'app')
-    }, {
-      test: /\.scss$/,
-      loaders: ['style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap']
-    }, {
-      test: /\.json$/,
-      loader: 'json-loader',
-    }, {
-      test: /\.txt$/,
-      loader: 'raw-loader',
-    }, {
-      test: /\.(png|jpg|jpeg|gif)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'url-loader',
-      query: {
-        limit: '10000'
-      }
-    }, {
-      test: /\.(wav|mp3|pdf|ttf|eot|svg)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'file-loader',
-    }, {
-      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'url-loader',
-      query: {
-        limit: '10000',
-        minetype: 'application/font-woff'
-      }
     }, {
       test: /\.css$/,
-      loader: 'style-loader!css-loader?modules',
-      include: /flexboxgrid/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            sourceMap: true,
+            modules: true,
+            importLoaders: 1
+          }
+        },
+        'postcss-loader'
+      ]
+    }, {
+      test: /\.txt$/,
+      use: 'raw-loader',
+    }, {
+      test: /\.(png|jpg|jpeg|gif)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      use: 'url-loader?limit=10000'
+    }, {
+      test: /\.(wav|mp3|pdf|ttf|eot|svg)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      use: 'file-loader'
+    }, {
+      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      use: 'url-loader?limit=10000&mimetype=application/font-woff'
     }]
   }
 };

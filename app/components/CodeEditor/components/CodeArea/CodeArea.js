@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 
-import { _bindAll } from '~/utils';
+import { _bindAll } from 'utils';
 
-require('./CodeArea.scss');
+import styles from './CodeArea.css';
 
 export default class CodeArea extends Component {
 
@@ -35,7 +35,7 @@ export default class CodeArea extends Component {
 
     return (
       <pre
-        className="codeEditor__codeArea"
+        className={styles.codeEditor__codeArea}
         ref="codeArea"
         contentEditable
         onKeyDown={this.props.onKeyDown}

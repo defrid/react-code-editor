@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 
-require('./CodeLine.scss');
+import styles from './CodeLine.css';
 
 export default class CodeLine extends Component {
 
@@ -16,7 +16,7 @@ export default class CodeLine extends Component {
 
     return (
       <pre
-        className="codeArea__codeLine"
+        className={styles.codeArea__codeLine}
         ref="codeLine">
         {this.props.text}
       </pre>

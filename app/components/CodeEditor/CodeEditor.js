@@ -4,8 +4,7 @@ import LineNumbers from './components/LineNumbers';
 import StatusRow from './components/StatusRow';
 import CodeArea from './components/CodeAreaNoTextArea';
 
-import { _bindAll } from '~/utils';
-require('./CoreEditor.scss');
+import styles from './CoreEditor.css';
 
 export default class CodeEditor extends Component {
 
@@ -13,12 +12,6 @@ export default class CodeEditor extends Component {
     totalLines: PropTypes.number,
     position: PropTypes.object.isRequired
   };
-
-  constructor(props) {
-    super(props);
-
-    _bindAll(this);
-  }
 
   render() {
     const { position, totalLines, scrollOffset } = this.props;
@@ -34,8 +27,8 @@ export default class CodeEditor extends Component {
     };
 
     return (
-      <div className="editorWrapper">
-        <div className="codeEditor">
+      <div className={styles.editorWrapper}>
+        <div className={styles.codeEditor}>
           <LineNumbers {...lineNumbersProps} />
           <CodeArea />
         </div>

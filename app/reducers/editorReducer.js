@@ -4,10 +4,10 @@ import {
   EDITOR_CHAR_ENTER, EDITOR_BACKSPACE_PRESS, EDITOR_INSERT_NEW_LINE,
   EDITOR_ARROW_LEFT_PRESS, EDITOR_ARROW_UP_PRESS, EDITOR_ARROW_RIGHT_PRESS, EDITOR_ARROW_DOWN_PRESS,
   EDITOR_CODE_SCROLL
-} from '~/actions/editorActions';
+} from 'actions/editorActions';
 import {
   _insertAt, _mapActionsToReducer, _removeAt
-} from '~/utils';
+} from 'utils';
 
 const initialState = fromJS({
   textLines: [''],

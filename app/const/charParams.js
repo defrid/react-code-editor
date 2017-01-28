@@ -1,4 +1,4 @@
-import { _calculateCharParams } from '~/utils';
+import { _calculateCharParams } from 'utils';
 
 export default {
   ..._calculateCharParams(),

@@ -3,9 +3,9 @@ import React, { PropTypes, Component } from 'react';
 import CodeLine from './components/CodeLine';
 import TextInput from './components/TextInput';
 import Cursor from './components/Cursor';
-import { _bindAll } from '~/utils';
+import { _bindAll } from 'utils';
 
-require('./CodeArea.scss');
+import styles from './CodeArea.css';
 
 export default class CodeArea extends Component {
 
@@ -51,7 +51,7 @@ export default class CodeArea extends Component {
 
     return (
       <div
-        className="codeEditor__codeArea"
+        className={styles.codeEditor__codeArea}
         onClick={this.onClick}
         onScroll={this.onScroll}
       >

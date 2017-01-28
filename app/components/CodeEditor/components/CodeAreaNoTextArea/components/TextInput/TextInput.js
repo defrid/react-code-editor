@@ -1,9 +1,9 @@
 import React, { PropTypes, Component } from 'react';
 
-import { _bindAll, _isCharacterKeyEvent } from '~/utils';
-import keyConstants from '~/const/keyConstants';
+import { _bindAll, _isCharacterKeyEvent } from 'utils';
+import keyConstants from 'const/keyConstants';
 
-require('./TextInput.scss');
+import styles from './TextInput.css';
 
 const {
   BACKSPACE_KEY, TAB_KEY, ENTER_KEY,
@@ -62,7 +62,7 @@ export default class TextInput extends Component {
 
     return (
       <input
-        className="codeArea__textInput"
+        className={styles.codeArea__textInput}
         ref="textInput"
         onKeyDown={this.onKeyDown}
         value={this.props.text}

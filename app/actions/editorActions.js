@@ -9,7 +9,7 @@ export const EDITOR_CODE_SCROLL = 'EDITOR_CODE_SCROLL';
 
 // ToDo split actions to keyboard action and others, no eto pzc kak mutorno
 
-import keyConstants from '~/const/keyConstants';
+import keyConstants from 'const/keyConstants';
 const {
   ARROW_LEFT_KEY,
   ARROW_UP_KEY,

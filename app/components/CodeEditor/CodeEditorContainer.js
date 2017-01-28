@@ -1,7 +1,7 @@
 import CodeEditor from './CodeEditor';
 import {
 
-} from '~/actions/editorActions';
+} from 'actions/editorActions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
